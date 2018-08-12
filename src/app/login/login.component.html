@@ -1,0 +1,99 @@
+<section>
+	<div class="container vertical-spacing">
+		<div class="row">
+			<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+
+				<form class="auth-form"  (ngSubmit)="onSubmit(f)" #f="ngForm">
+                    <h1 class="heading heading--md heading--separator">
+                        Logowanie
+                    </h1>
+
+                    <!-- <p class="alert alert-danger" role="alert" id="backend_error"
+                        *ngIf="error && error.description"
+                        @toggleVertically>
+                        {{ error?.description }}
+                    </p> -->
+
+
+
+					<!-- EMAIL -->
+					<div class="form-group"
+						[ngClass]="{'form-group-invalid': !email.valid && email.touched}">
+						<label for="email">E-mail</label>
+						<input type="email" class="form-control" id="email"
+							placeholder="Wprowadź email"
+							ngModel
+							name="email"
+							required
+							email
+							#email="ngModel"
+                            [attr.aria-describedby]="'email_error'"
+                            [attr.aria-invalid]="!email.valid && email.touched">
+
+						<small class="form-text text-danger" role="alert" id="email_error"
+                            *ngIf="!email.valid && email.touched"
+                            @toggleVertically>
+							e-mail jest wymagany i musi być poprawny
+						</small>
+					</div>
+
+
+					<!-- PASSWORD -->
+					<div class="form-group"
+						[ngClass]="{'form-group-invalid': !password.valid && password.touched}">
+						<label for="password">
+                            Hasło
+                        </label>
+                        <input type="password" class="form-control" id="password"
+                            placeholder="Wprowadź hasło"
+							ngModel
+							name="password"
+							required
+							#password="ngModel"
+                            [attr.aria-describedby]="'password_error'"
+                            [attr.aria-invalid]="!password.valid && password.touched">
+
+						<small class="form-text text-danger" role="alert" id="password_error"
+							*ngIf="!password.valid && password.touched"
+                            @toggleVertically>
+                            Hasło jest wymagane
+						</small>
+                    </div>
+
+
+					<!-- REMEMBER ME & SUBMIT -->
+					<div class="form-check clearfix">
+                        <input type="checkbox" class="form-check-input" id="rememberCheck"
+                            ngModel
+                            name="rememberCheck"
+                            #rememberCheck="ngModel"
+                            [attr.aria-checked]="f.value.rememberCheck || false">
+
+						<label class="form-check-label" for="rememberCheck">
+							Zapamiętaj mnie
+                        </label>
+
+                        <!-- fake button to indicate 'disabled' state -->
+                        <button type="button" class="btn btn-secondary disabled" *ngIf="!f.valid"
+                            aria-describedby="backend_notifications email_error password_error"
+                            [attr.aria-disabled]="true">
+							Zaloguj się
+						</button>
+
+						<button type="submit" class="btn btn-primary" *ngIf="f.valid">
+							Zaloguj się
+						</button>
+					</div>
+
+					<!-- FORGOTTEN PASSWORD -->
+					<p class="forgotten">
+						<a [routerLink]="['/lost-password']">
+							Nie pamiętam hasła
+						</a>
+					</p>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</section>

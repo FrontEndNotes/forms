@@ -1,0 +1,175 @@
+<section>
+	<div class="container vertical-spacing">
+
+
+        <!-- SUCCESSFULLY REGISTERED -->
+        <ng-container *ngIf="isRegistered">
+            <div class="alert alert-success" role="alert">
+                <p>
+                    <strong>
+                        Gratulacje!
+                    </strong>
+                    Rejestracja prebiegła pomyślnie.
+                </p>
+                <p class="no-margin">
+                    Na Twój adres email został wysłany link aktywacyjny. Proszę sprawdzić również folder SPAM.
+                </p>
+            </div>
+
+            <p class="center-text">
+                <a [routerLink]="['/login']" class="btn btn-primary">
+                    Zaloguj się
+                </a>
+            </p>
+        </ng-container>
+
+
+		<!-- REGISTRATION FORM -->
+		<div class="row" *ngIf="!isRegistered">
+			<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+
+				<form class="auth-form" (ngSubmit)="onSubmit()" [formGroup]="registrationForm">
+					<h1 class="heading heading--md heading--separator">
+                        Rejestracja
+                    </h1>
+
+					<!-- FORM ERRORS -->
+                    <p class="alert alert-danger" role="alert"
+                        *ngIf="formErrors && formErrors.description">
+                        {{ formErrors?.description }}
+                    </p>
+
+
+
+					<!-- EMAIL -->
+					<div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('email')}">
+
+						<label for="email">E-mail</label>
+
+						<input type="email" class="form-control" id="email"
+                            placeholder="Wprowadź email"
+                            formControlName="email"
+                            [attr.aria-describedby]="'email_required_error email_other_error'"
+                            [attr.aria-invalid]="isFieldValid('email')">
+
+                        <!-- Email - required error -->
+						<small class="form-text text-danger" id="email_required_error"
+							*ngIf="isFieldValid('email')"
+                            @toggleVertically>
+							e-mail jest wymagany i musi być poprawny
+                        </small>
+
+                        <!-- Email - other error -->
+                        <!-- <small class="form-text text-danger" id="email_other_error"
+                               *ngIf="formErrors?.errors && !!formErrors?.errors.email"
+                               @toggleVertically>
+                            {{ formErrors?.errors.email }}
+                        </small> -->
+					</div>
+
+
+					<!-- PASSWORD -->
+					<div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('password1')}">
+
+                        <label for="password1">
+                            Hasło
+                        </label>
+
+                        <!-- Password with hint (tooltip) -->
+                        <div style="position: relative">
+                            <input type="password" class="form-control" id="password1"
+                                placeholder="Wprowadź hasło"
+                                [attr.aria-describedby]="'password_policy password_required_error password_other_error'"
+                                [attr.aria-invalid]="isFieldValid('password1')"
+                                formControlName="password1"
+                                (focus)="showPasswordHint = true"
+                                (blur)="showPasswordHint = false"
+                                (mouseenter)="showPasswordHint = true"
+                                (mouseleave)="showPasswordHint = false">
+
+                                <!-- Password policy description -->
+                                <span class="hint" role="tooltip" id="password_policy"
+                                    *ngIf="showPasswordHint">
+                                     <small>
+                                        Hasło powinno zawierać co najmniej 8 znaków, jedną dużą literę, jedną małą i znak specjalny
+                                     </small>
+                                </span>
+                        </div>
+
+
+                        <!-- Password - required error -->
+						<small class="form-text text-danger" id="password_required_error"
+                            *ngIf="isFieldValid('password1')"
+                            @toggleVertically>
+                            Hasło jest wymagane
+                        </small>
+
+                        <!-- Password - other errors -->
+                        <!-- <small class="form-text text-danger" id="password_other_error"
+                               *ngIf="formErrors?.errors && !!formErrors?.errors.password1"
+                               @toggleVertically>
+                            {{ formErrors?.errors.password1 }}
+                        </small> -->
+
+                        <!-- [barLabel]="'Validation.PasswordStrength' | translate" -->
+                        <app-password-strength
+                            [passwordToCheck]="registrationForm.value.password1">
+                        </app-password-strength>
+					</div>
+
+
+					<!-- PASSWORD CONFIRMATION -->
+					<div class="form-group"
+                        [ngClass]="{'form-group-invalid': isFieldValid('password2')}">
+
+						<label for="password2">
+							Powtórz hasło
+						</label>
+
+                        <!-- Password confirmation -->
+                        <input type="password" class="form-control" id="password2"
+                            placeholder="Powtórz hasło"
+							formControlName="password2"
+                            autocomplete="off"
+                            role="presentation"
+                            [attr.aria-describedby]="'password2_required_error password2_other_error'"
+                            [attr.aria-invalid]="isFieldValid('password2')">
+
+                        <!-- Password confirmation - required error -->
+						<small class="form-text text-danger" id="password2_required_error"
+							*ngIf="isFieldValid('password2')"
+                            @toggleVertically>
+							Powtórzenie hasła jest wymagane i jego wartość musi być zgodna z wcześniej wprowadzonym hasłem
+                        </small>
+
+                        <!-- Password confirmation - other error -->
+                        <!-- <small class="form-text text-danger" id="password2_other_error"
+                            *ngIf="formErrors?.errors && !!formErrors?.errors.password2"
+                            @toggleVertically>
+                            {{ formErrors?.errors.password2 }}
+                        </small> -->
+					</div>
+
+
+					<!-- REMEMBER ME & SUBMIT -->
+					<div class="form-check clearfix">
+
+                        <!-- fake button to indicate 'disabled' state -->
+                        <button type="button" class="btn btn-secondary disabled" *ngIf="!registrationForm.valid"
+                            aria-describedby="backend_notifications email_required_error password_required_error password2_required_error"
+							[attr.aria-disabled]="true">
+							Załóż konto
+                        </button>
+
+						<button type="submit" class="btn btn-primary" *ngIf="registrationForm.valid">
+							Załóż konto
+						</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</section>
